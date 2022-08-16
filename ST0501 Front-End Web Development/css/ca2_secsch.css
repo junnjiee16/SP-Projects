@@ -1,0 +1,27 @@
+@charset "utf-8";
+ 
+/*
+File name: ca2_secsch.css
+Name: Jun Jie
+*/
+
+
+/* Carousel styles */
+.carousel-item h2 {
+    font-size: 1.5em;
+}
+
+.carousel-item p {
+    font-size: 1em;
+    line-height: 1.2em;
+}
+
+.changeWidth {
+    width: 80%;
+}
+
+
+/* box shadow for carousel */
+.boxShadow {
+    box-shadow: 11px 11px hsl(36, 4%, 35%);
+}

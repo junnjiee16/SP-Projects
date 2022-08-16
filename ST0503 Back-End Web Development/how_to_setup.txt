@@ -1,0 +1,17 @@
+Set-up Instructions:
+
+    1. Open the bed_assignment2 folder in Visual Studio Code
+    2. Split 2 Command Prompt terminals. In 1 terminal, do cd back_end, the other terminal, do cd front_end
+    3. type nodemon index for terminal in the front_end folder (front end is on port 8081)
+    4. type nodemon server for terminal in the back_end folder (back end is on port 3000)
+    5. Go to google and enter the url http://localhost:8081/index.html to access the application
+
+
+Accounts to log in from:
+Admin
+    email: use@mail.com
+    password: 123
+
+Customer
+    email: hec@mail.com
+    password: 123

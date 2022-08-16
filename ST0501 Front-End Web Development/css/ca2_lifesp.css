@@ -1,0 +1,32 @@
+@charset "utf-8";
+ 
+/*
+File name: ca2_lifesp.css
+Name: Jun Jie
+*/
+
+
+
+
+
+/* card styles */
+.card h2 {
+    font-size: 1.5em;
+}
+
+.card p {
+    line-height: 1.2em;
+}
+
+.card {
+    filter: drop-shadow(5px 5px 10px gray);
+}
+
+.card-body {
+    background-color: hsla(31, 73%, 60%, 0.7);
+}
+
+.card:hover {
+    filter: drop-shadow(9px 9px 10px gray);
+    transform: scale(1.1, 1.1);
+}

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="en">
+     
+<head>
+    <!--
+        File name: ca2_course.html
+        Name: Jun Jie
+    -->
+    <meta charset="UTF-8">
+    <title>My Course and Career Prospect | Jun Jie's Journey</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap CDN-->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="../css/ca2_reset.css" rel="stylesheet"> 
+    <link href="../css/ca2_layout.css" rel="stylesheet">
+    <link href="../css/ca2_course.css" rel="stylesheet">
+    <script src="../js/scorecalc.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="d-none d-md-block headText">
+            <img src="../img/spdaaapic1Edited.png" class="w-100" alt="">
+            <!--Img Source: https://www.google.com/search?q=sp+daaa&rlz=1C1BNSD_enSG946SG946&sxsrf=ALeKk01sNruFVbUNpVeWwDpEouqxeyR64A:1622966058484&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiJzJfbw4LxAhXDdn0KHWphB4IQ_AUoAXoECAEQAw&biw=1536&bih=664#imgrc=oGeeqmBw0uuNVM-->
+            <h1 class="titleStyle text-white font-weight-bold text-center gradient pb-2">Jun Jie's Journey</h1>
+        </div>
+    </header>
+
+
+
+    <div class="container-fluid fixed-top"> <!--Navigation bar-->
+        <nav class="navbar navbar-dark navbar-expand-md row">
+
+            <!--For different navbar layout on small screen below 768px-->
+            <a class="navbar-brand d-md-none">Jun Jie's Journey</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center font-weight-bold" id="navCollapse">
+                <ul class="navbar-nav nav nav-tabs">
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../ca2_index.html">Home</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../html/ca2_secsch.html">Sec Sch Experience</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../html/ca2_lifesp.html">Life in SP</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link active text-body" href="../html/ca2_course.html">Course/Career</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../html/ca2_feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container-fluid pt-5 contentBackColor">
+        <div class="row">
+            <div class="col-12 pt-4 pt-md-0">
+                <h1 class="text-center display-4 d-none d-sm-block">My Course and Career Prospect</h1>
+                <h1 class="text-center contentHead d-sm-none">My Course and Career Prospect</h1>
+                <hr class="w-50">
+            </div>
+
+            <article class="col-12 py-5 mt-5">
+                <div class="container-sm">
+                    <h2 class="text-center">About my Course</h2>
+                    <p class="text-md-left pt-md-3">
+                        I got into Diploma in Applied AI and Analytics (DAAA) through the Early Admissions Exercise (EAE) 
+                        as I was intrigued about how AI and big data can create huge impact throughout various industries and in the world. This 
+                        course teaches about data science and how to sieve valuable data to improve products. 
+                        We also learn how to use big data and Machine Learning techniques to improve existing products or create new and useful applications.
+                    </p>
+                </div>
+            </article>
+
+            <article class="col-12 py-5 altBackColor">
+                <div class="container-sm">
+                    <img class="img_resize d-none d-md-block float-md-right pl-md-2" src="../img/spdaaapic2.jpg" alt="DAAA poster">
+                    <img class="img-fluid d-md-none" src="../img/spdaaapic2.jpg" alt="DAAA poster">
+                    <!--img source: https://www.google.com/search?q=sp+daaa&rlz=1C1BNSD_enSG946SG946&sxsrf=ALeKk01sNruFVbUNpVeWwDpEouqxeyR64A:1622966058484&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiJzJfbw4LxAhXDdn0KHWphB4IQ_AUoAXoECAEQAw&biw=1536&bih=664#imgrc=s4w6oOKlxJeuHM-->
+                    <h2 class="text-md-left text-center">Career Prospect</h2>
+                    <p class="text-left pt-md-3">
+                        I aspire to become a software engineer to work in the IT industry as I want to develop and build
+                        useful applications that can create a positive impact in the world. There are no limits when 
+                        working in the field of Inforation Technology and I can get to express my creativity when programming
+                        or building applications.
+                    </p>
+                </div>
+            </article>
+
+
+            <div class="container-sm py-4"> <!--Table to show my modules with description-->
+                <h1 class="text-center display-4 py-4 d-none d-sm-block">My Modules</h1>
+                <h1 class="text-center contentHead py-3 d-sm-none">My Modules</h1>
+    
+                <div class="table-responsive">
+                    <table class="table table-bordered table-dark" id="modules">
+                        <thead>
+                            <tr>
+                                <th>My Modules</th>
+                                <th>Module Credits</th>
+                                <th>Description</th>
+                                <th>Assessment Type</th>
+                            </tr>
+                        </thead>
+        
+                        <tbody>
+                            <tr>
+                                <th>Fundamentals of Programming</th>
+                                <td>6</td>
+                                <td>
+                                    This module is where we learn the basics of programming. We are introducted to Javascript, a 
+                                    beginner friendly programming language capable of both client side and server side programming.
+                                </td>
+                                <td>MST: Written Test<br><br>EST: Personal Project</td>
+                            </tr>
+
+                            <tr>
+                                <th>Front-End Web Development</th>
+                                <td>5</td>
+                                <td>
+                                    We are introduced to HTML5 and CSS3, the two essential languages to build web applications and 
+                                    as well as Bootstrap 4, a popular front-end framework used to design responsive web applications.
+                                </td>
+                                <td>MST/EST: Personal Project</td>
+                            </tr>
+
+                            <tr>
+                                <th>Fundamentals of Computing</th>
+                                <td>4</td>
+                                <td>
+                                    This module equips us with basic knowledge on network systems and how data is moved throughout the internet.
+                                    We are also taught how to use the Linux OS using Ubuntu Linux and deploy applications onto the cloud using AWS.
+                                </td>
+                                <td>MST: Written Test<br><br>EST: Group Project</td>
+                            </tr>
+
+                            <tr>
+                                <th>Mathematics</th>
+                                <td>4</td>
+                                <td>
+                                    This module teaches us mathematical knowledge require to solve problems in the infocomm technology sector. Examples of
+                                    topics taught are Techniques of Counting, Probability and Linear Transformation.
+                                </td>
+                                <td>MST/EST: Written Test</td>
+                            </tr>
+
+                            <tr>
+                                <th>Critical and Analytical Thinking</th>
+                                <td>2</td>
+                                <td>
+                                    This module equips us with skills on critical and analytical thinking. We also get to hone our information literacy
+                                    skills by using contemporary global and local issues.
+                                </td>
+                                <td>MST: Personal Project<br><br>EST: Group Project</td>
+                            </tr>
+
+                            <tr>
+                                <th>Communicating for Project Effectiveness (Proposal)</th>
+                                <td>2</td>
+                                <td>
+                                    This module teaches us on how to craft persuasive and professional proposals. We are also taught presentation skills and
+                                    how to create proper presentations to pitch to a target audience.
+                                </td>
+                                <td>MST/EST: Group Project</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="container-fluid altBackColor"> <!--Table to show what courses are there in soc, powered by javascript-->
+                <h2 class="text-center pt-5">Find out what courses are there in SoC!</h2>
+                <div class="container-sm py-5">
+                    <div class="form-inline justify-content-center">
+                        <input type="text" class="form-control w-25" id="myText" placeholder="Enter net L1R4 here">
+                        <button class="btn btn-primary" onclick="calc()">Submit</button>
+                    </div>
+    
+                    <div class="table-responsive d-flex justify-content-center my-5">
+                        <table id="scoreTable">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">SoC courses are within range</th>
+                                    <th class="p-3">Net L1R4 from 2021 JAE Intake</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="result"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--Page footer-->
+    <div class="container-fluid">
+        <footer class="row">
+            <div class="mx-auto">
+                <ul class="list-group list-group-horizontal-sm">
+                    <li class="mr-sm-4 my-1 my-sm-3">
+                        <a href="https://www.instagram.com/_junnjiee_/" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                            </svg>
+                            Instagram
+                        </a>
+                    </li>
+                    <li class="mr-sm-4 my-1 my-sm-3">
+                        <a href="mailto:junjie.21@ichat.sp.edu.sg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                            </svg>
+                            Email
+                        </a>
+                    </li>
+                    <li class="my-1 my-sm-3">
+                        <a href="https://github.com/junnjiee16 " target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="text-center col-12 py-3">
+                <p>Last Updated: 9 July 2021 &#9679; Best viewed using Google Chrome</p>
+                <p class="pt-4">
+                    Background photo by <a href="https://unsplash.com/@jdiegoph?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Diego PH</a> on <a href="https://unsplash.com/s/photos/sunset?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> &#9679; Free to use under the Unsplash License
+                </p>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>

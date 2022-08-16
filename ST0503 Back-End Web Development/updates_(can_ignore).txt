@@ -1,0 +1,53 @@
+stuff added to back_end folder that did not exist in assignment 1:
+
+
+#New folders/files (not including front_end folder and its files):
+    ADDED folder => auth
+    ADDED file => auth\verifyToken.js
+    ADDED file => config.js
+    ADDED folder => router + seperate files for endpoints in the folder
+
+
+#New/modified functions in model folder:
+    NEW in user.js => loginUser function
+    CHANGED in product.js => set image upload to update statement to update the row with image link by productid
+    NEW in product.js => showAll function
+    NEW in product.js => search function
+    NEW in userInterest.js => showInterests function
+    NEW in product.js => updateImageLink function
+    NEW in product.js => updateProduct function
+
+
+#New/Modifed endpoints:
+    NEW in routeUser.js => POST /users/login/ => for users to login and get a authorized token to access endpoints
+    NEW in routeProduct.js => GET /product/ => get all products  to show all product listings in 1 page
+    NEW in routeProduct.js => POST /search/products/ => to let user search products by brand/product name/category
+    NEW in routeInterest.js => GET /interest/:userid/ => to show all interested categories of the userid
+    NEW in routeProduct.js => POST /product/:id/updateimage/ => improved from uploadimage endpoint, so that existing image can be updated
+    NEW in routeProduct.js => PUT /product/:id/ => let admin update product details of specified product
+    NEW in routeProduct.js => GET /new/products/ => show 12 latest products for the home page
+
+
+#Endpoints that has verifyToken function 
+    routeProduct.js => POST /product/:id/review/
+    routeCategory.js => POST /category/
+    routeProduct.js => POST /product/
+    routeInterest.js => POST /interest/:userid/
+    ------------------------------------------------(verifyToken for assignment requirements above)
+    routeInterest.js => GET /interest/:userid/
+    routeProduct.js => POST /product/:id/uploadimage/
+    routeProduct.js => DELETE /product/:id/
+    routeProduct.js => POST /product/:id/updateimage/
+    routeProduct.js => PUT /product/:id/
+    routeProduct.js => GET /new/products/
+
+
+#Other new changes:
+    Changed endpoints in app.js into seperate files in router folder
+    Changed MySQL table for product so that image link is part of the table instead of a seperate table
+
+
+#Additional stuff created:
+    1. Upload image function to upload product image once new product has been inserted into the database
+    2. Form to delete/edit product in dashboard page. Deletes/Replaces image in image folder too if applicable
+    3. Search bar has additional feature to let user filter by category

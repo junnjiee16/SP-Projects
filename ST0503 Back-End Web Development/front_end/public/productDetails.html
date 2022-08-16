@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SP IT | Product Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="css\main.css" rel="stylesheet">
+</head>
+
+<body>
+    <!--navigation tab-->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html"><b class="text-danger">SP IT</b></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+                <li class="nav-item d-none" id="interestsLink">
+                    <a class="nav-link" href="interests.html">Interests</a>
+                </li>
+                <li class="nav-item d-none" id="dashboardLink">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-3">
+                <li class="nav-item" id="logInOut">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <!--container to show product details-->
+        <div class="row" id="detailsCard">
+        </div>
+
+        <!--to show if user is not logged in-->
+        <div class="row bg-secondary" id="notloggedin">
+            <div class="col-12 text-center py-3">
+                <h5>Log in or sign up to review</h5>
+            </div>
+        </div>
+
+        <!--review form container-->
+        <form class="form-group row was-validated bg-secondary" id="reviewForm">
+            <label for="exampleFormControlTextarea1" class="col-12 pt-3 text-white"><h4>Write a review</h4></label>
+            <!--star rating-->
+            <div class="form-row ml-3">
+                <p class="pt-3 pr-2 text-white">Rating: </p>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="rating" value="1" required>
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="rating" value="2" required>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="rating" value="3" required>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>   
+                    </label>
+                    <label>
+                        <input type="radio" name="rating" value="4" required>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="rating" value="5" required>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                </div>
+            </div>
+            <!--textarea for review description-->
+            <div class="form-row col-12">
+                <textarea name="reviewDesc" class="form-control" id="reviewDesc" rows="4" placeholder="Review description" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary ml-3 my-3">Submit</button>
+        </form>
+
+        <!--container to show all reviews-->
+        <div class="row bg-secondary mt-0" id="reviewsCard">
+        </div>
+    </div>
+
+    <!--Compulsory scripts for every page except login page-->
+    <!--Check user login (modified to not allow user to enter review if not logged in)-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                console.log(localStorage.getItem('token'))
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-danger" href="#" id="logout">Log Out</a>`
+                $("#notloggedin").addClass("d-none")
+            } else {
+                console.log("not logged in")
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-primary" href="./login.html" id="login">Login</a>`
+                $("#reviewForm").addClass("d-none")
+            }
+        })
+    </script>
+    <!--Logout function-->
+    <script>
+        $(document).ready(function() {
+            $("#logout").click(function() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                localStorage.removeItem("type");
+                window.location.assign("./login.html");
+            })
+        })
+    </script>
+    <!--Script to show dashboard link if an admin is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('type') == "Admin" && localStorage.getItem('token')) {
+                $("#dashboardLink").removeClass("d-none")
+            }
+        })
+    </script>
+    <!--Script to show interests link if anyone is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                $("#interestsLink").removeClass("d-none")
+            }
+        })
+    </script>
+
+    <!--Page specific scripts-->
+    <!--Script to show product details of productid stored in local storage-->
+    <script>
+        $(document).ready(function() {
+            productid = localStorage.getItem("productid")
+
+            // ajax to show product details
+            $.ajax({
+                url: `http://localhost:3000/product/${productid}`,
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        console.log(data)
+                        document.getElementById('detailsCard').innerHTML +=
+                            `<div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>${data[0].name}</h4>
+                                    </div>
+                                    <div class="card-body" id="detailsCardBody">
+                                        <h5>${data[0].categoryname}</h5><br>
+                                        <p class="card-text"><b>Description: </b>${data[0].description}</p>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><b>Brand: </b>${data[0].brand}</li>
+                                    </ul>
+                                    <div class="card-footer">
+                                        <h6>Price: $${data[0].price}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <img src="http://localhost:3000/${data[0].image}" alt="product image" id="pd_image">
+                            </div>`
+
+                    } else {
+                        console.log("Error");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        });
+    </script>
+
+    <!--Script to show reviews of productid stored in local storage and calculate average rating of product-->
+    <script>
+        $(document).ready(function() {
+            productid = localStorage.getItem("productid")
+
+            // ajax to show reviews of the product and calculate average rating
+            $.ajax({
+                url: `http://localhost:3000/product/${productid}/reviews`,
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        console.log(data)
+                        console.log(`no. of reviews: ${data.length}`)
+                        if (data.length > 0) {
+                            totalRating = 0;
+
+                            document.getElementById('reviewsCard').innerHTML +=
+                                `<div>
+                                    <h3 class="pl-4 pt-3 text-light">Member's Reviews</h3>
+                                </div>`
+                            for (i = 0; i < data.length; i++) {
+                                totalRating += parseInt(data[i].rating);
+
+                                document.getElementById('reviewsCard').innerHTML +=
+                                    `<div class="col-12 my-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6>${data[i].username}</h6>
+                                            <small>${data[i].created_at}</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Rating: ${data[i].rating}</li>
+                                        </ul>
+                                        <div class="card-body">
+                                            <p>${data[i].review}</p>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            // shows average rating on the card
+                            avgRating = totalRating / data.length
+                            document.getElementById('detailsCardBody').innerHTML +=
+                                `<p><b>Average rating:</b> ${avgRating}</p>`
+                        }
+
+                    } else {
+                        console.log("no reviews");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    document.getElementById('detailsCardBody').innerHTML +=
+                        `<p><b>Average rating:</b> No reviews yet.</p>`
+                    document.getElementById('reviewsCard').innerHTML +=
+                        `<div>
+                            <h4 class="pl-4 pt-3 text-light">No reviews. Be the first one to review</h4>
+                        </div>`
+                }
+            });
+            return false;
+        })
+    </script>
+
+    <!--Star rating and form submission script to send review to database (with authorization header)-->
+    <script>
+        //record number of stars selected
+        $(':radio').change(function() {
+            console.log('New star rating: ' + this.value);
+            starCount = this.value
+        });
+
+        $('#reviewForm').submit(function() {
+            // get all the inputs into an array.
+            var $inputs = $('#reviewForm :input');
+
+            //put form inputs into js object
+            var formData = {};
+            $inputs.each(function() {
+                formData[this.name] = $(this).val();
+                formData.rating = starCount
+            });
+            console.log(formData)
+
+            // post formData to database
+            $(document).ready(function() {
+                var rating = formData.rating;
+                var review = formData.reviewDesc;
+                var productid = localStorage.getItem("productid");
+                var userid = localStorage.getItem("userid");
+                var data = `{"userid": "${userid}", "rating": "${rating}", "review": "${review}"}`;
+                var tmpToken = localStorage.getItem('token')
+
+                //this ajax includes authorization header to send jwt to database to verify token
+                $.ajax({
+                    headers: {
+                        'authorization': 'Bearer ' + tmpToken
+                    },
+                    url: `http://localhost:3000/product/${productid}/review`,
+                    type: 'POST',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data, status, xhr) {
+                        console.log("form data sent to database");
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log("data not sent");
+                        console.log(xhr);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>

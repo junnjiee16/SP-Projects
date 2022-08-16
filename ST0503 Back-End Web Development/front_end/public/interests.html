@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SP IT | Category Interests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!--Bootstrap stuff-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="css\main.css" rel="stylesheet">
+</head>
+
+<body>
+    <!--navigation tab-->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html"><b class="text-danger">SP IT</b></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+                <li class="nav-item active" id="interestsLink">
+                    <a class="nav-link" href="#">Interests</a>
+                </li>
+                <li class="nav-item d-none" id="dashboardLink">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-3">
+                <li class="nav-item" id="logInOut">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row text-center justify-content-center mt-5">
+            <!--form to let user create new interests-->
+            <form class="col-6 bg-white p-4">
+                <h5 class="pb-1">Tell us what you are interested in!</h5>
+                <p class="pb-3" id="currentInterests">
+                    <!--Users current interests appended using script-->
+                </p>
+                <div id="interestsForm" class="row">
+                    <!--checkboxes of all categories appended using script-->
+                </div>
+                <div id="notification">
+                    <!--notifies user if submission not successful-->
+                </div>
+                <button type="button" class="btn btn-primary mt-3" id="newInterests">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!--Compulsory scripts for every page except login page-->
+    <!--Check user login-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                console.log(localStorage.getItem('token'))
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-danger" href="#" id="logout">Log Out</a>`
+            } else {
+                console.log("not logged in")
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-primary" href="./login.html" id="login">Login</a>`
+            }
+        })
+    </script>
+    <!--Logout function-->
+    <script>
+        $(document).ready(function() {
+            $("#logout").click(function() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                localStorage.removeItem("type");
+                window.location.assign("./login.html");
+            })
+        })
+    </script>
+    <!--Script to show dashboard link if an admin is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('type') == "Admin" && localStorage.getItem('token')) {
+                $("#dashboardLink").removeClass("d-none")
+            }
+        })
+    </script>
+    <!--Kicks the user out of interests page if there is no token detected-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem("token")) {
+                console.log("allowed in interests");
+            } else {
+                console.log("refused entry");
+                window.location.assign("./index.html");
+            }
+        })
+    </script>
+
+    <!--Page specific scripts-->
+    <!--Script to append existing categories to user interests form-->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost:3000/category/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        for (i = 0; i < data.length; i++) {
+                            document.getElementById('interestsForm').innerHTML +=
+                                `<div class="col-12 custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input interestCategories" name="userInterests" id="${data[i].category}" value="${data[i].categoryid}">
+                                    <label class="custom-control-label" for="${data[i].category}">${data[i].category}</label>
+                                </div>`
+                        }
+                    } else {
+                        console.log("data is null");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        })
+    </script>
+
+    <!--Script to append user's current interests (with authorization header)-->
+    <script>
+        var userid = localStorage.getItem("userid");
+        var tmpToken = localStorage.getItem("token")
+
+        $(document).ready(function() {
+            $.ajax({
+                headers: {
+                    'authorization': 'Bearer ' + tmpToken
+                },
+                url: `http://localhost:3000/interest/${userid}`,
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    document.getElementById('currentInterests').innerHTML += `Current interests: `;
+
+                    if (data.length != 0) {
+                        console.log(data);
+                        for (i = 0; i < data.length; i++) {
+                            //appended in text for add new interest
+                            document.getElementById('currentInterests').innerHTML +=
+                                `${data[i].category} / `;
+                        }
+                    } else {
+                        document.getElementById('currentInterests').innerHTML += "none"
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        })
+    </script>
+
+    <!--Script to submit user's selected interests (with authorization header)-->
+    <script>
+        $("#newInterests").click(function() {
+            var checks = document.getElementsByClassName("interestCategories");
+            var catIDs = [];
+
+            for (i = 0; i < checks.length; i++) {
+                if (checks[i].checked === true) {
+                    catIDs.push(checks[i].value);
+                }
+            }
+
+            if (catIDs.length == 0) { //check if user has selected any checkbox
+                document.getElementById("notification").innerHTML = `<p class="text-danger">You did not check any categories!</p>`;
+
+            } else {
+                var catIDs = catIDs.toString();
+                var userid = localStorage.getItem("userid");
+                var tmpToken = localStorage.getItem("token");
+                var data = `{"ids": "${catIDs}"}`
+                console.log(data)
+
+                $.ajax({
+                    headers: {
+                        'authorization': 'Bearer ' + tmpToken
+                    },
+                    url: `http://localhost:3000/interest/${userid}`,
+                    type: 'POST',
+                    data: data,
+                    contentType: "application/json",
+                    dataType: "json",
+                    statusCode: { //422 response is when all categories user is interested in is already stored in database
+                        422: function(response) {
+                            document.getElementById('notification').innerHTML = "<p class='text-danger'>You have already selected these categories as interests</p>";
+                        }
+                    },
+
+                    success: function(data, status, xhr) {
+                        console.log(data)
+                        console.log("Successfully entered");
+                        alert("Your interests have been updated.")
+                        location.reload(true)
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(errorThrown)
+                        console.log(xhr)
+                    }
+                });
+                return false;
+            }
+        })
+    </script>
+</body>
+
+</html>

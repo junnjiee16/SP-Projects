@@ -1,0 +1,86 @@
+@charset "utf-8";
+ 
+/*
+File name: ca2_layout.css
+Name: Jun Jie
+*/
+
+
+
+.titleStyle {
+    font-size: 2.5em;
+}
+
+
+/* Linear gradient for page headers */
+.gradient {
+    background-image: linear-gradient(to right, rgb(54,36,117),rgb(164,49,49),rgb(254,199,12));
+}
+
+
+/* background and color styles */
+nav {
+    background-color: rgb(90, 93, 99);
+}
+
+.contentBackColor {
+    background-color: hsla(44, 73%, 79%, 0.6);;
+}
+
+.altBackColor {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+body {
+    background-image: url(../img/sunset.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+
+
+/* To make all images in website smaller */
+.img_resize {
+    width: 40%;
+}
+
+
+
+
+/* General article styles */
+article h2, .contentHead {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.3em;
+}
+
+article p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    line-height: 1.5em;
+}
+
+
+
+/* Footer styles */
+footer {
+    background-color: rgba(90, 93, 99, 0.8);
+    color: rgb(255, 255, 255);
+}
+
+footer a {
+    color: hsl(200, 100%, 85%);
+}
+
+footer a:hover, footer a:active {
+    color: hsl(196, 100%, 39%);
+    text-decoration: none;
+}
+
+footer p {
+    font-size: 0.9em;
+}
+
+

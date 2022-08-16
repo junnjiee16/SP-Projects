@@ -1,0 +1,97 @@
+@charset "utf-8";
+ 
+/*
+File name: ca2_index.css
+Name: Jun Jie
+*/
+
+/* Style for the rounded profile picture */
+#profilePic {
+    width: 60%;
+    border-radius: 50%;
+}
+
+
+
+/* Header picture */
+#headIndex {
+    background-image: url("../img/dbheaderpicTranslucent.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100%;
+}
+
+
+
+/* For header image so it covers the full screen */
+body, html {
+    height: 100%
+}
+
+
+
+/* Increase font size for words in first section */
+.lead {
+    font-size: 1.3em;
+    line-height: 1.3em;
+}
+
+.intro {
+    font-size: 2em;
+}
+
+
+/* For scroll behavior during transition when arrow button is pressed */
+html {
+    scroll-behavior: smooth;
+}
+
+
+
+/* Style for hr */
+hr {
+    padding: 1px;
+}
+
+
+/* Animation for arrow icon */
+@keyframes bobVertical {
+    0% {top: -10px;}
+    50% {top: 0px;}
+    100% {top: -10px;}
+}
+
+
+/* Styles for arrow icon */
+
+.arrow {
+    font-size: 3em;
+    color: white;
+    position: relative;
+    animation-name: bobVertical;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+#containArrow {
+    position: absolute;
+    bottom: 0px;
+    right: 10em;
+    display: block;
+    padding: 0.5em 1.4em;
+    background-color: black;
+}
+
+
+/* Style for header text in image */
+#headText {
+    position: relative;
+    top: 35%;
+    text-align: center;
+}
+
+figure {
+    float: right;
+}

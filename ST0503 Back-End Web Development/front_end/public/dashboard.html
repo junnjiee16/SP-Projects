@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SP IT | Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="css\main.css" rel="stylesheet">
+</head>
+
+<body>
+    <!--navigation tab-->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html"><b class="text-danger">SP IT</b></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+                <li class="nav-item" id="interestsLink">
+                    <a class="nav-link" href="interests.html">Interests</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-3">
+                <li class="nav-item" id="logInOut">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--container for html-->
+    <div class="container-fluid">
+
+        <!--Div to create form to let admin insert new category into database-->
+        <div class="row justify-content-center mt-5">
+            <form class="col-5 bg-white p-3" style="font-size: 13px;">
+                <h5 class="row justify-content-center pb-3">Add New Category</h5>
+                <div class="form-group">
+                    <label for="catName" class="col-form-label">Category Name</label>
+                    <input name="categoryName" type="text" class="form-control" id="catName" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="catDesc">Description</label>
+                    <textarea name="categoryDesc" class="form-control" id="catDesc" rows="3"></textarea>
+                </div>
+                <div class="text-center">
+                    <div id="catInsertNotification"></div>
+                    <button type="button" name="button" class="btn btn-primary" id="newCategory">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <!--buttons to choose add/edit/delete product-->
+        <div class="row justify-content-center pt-5">
+            <button type="button" class="mx-3 btn btn-primary" id="addProductBtn">Add Product</button>
+            <button type="button" class="mx-3 btn btn-secondary" id="editProductBtn">Edit Product</button>
+            <button type="button" class="mx-3 btn btn-danger" id="delProductBtn">Delete Product</button>
+        </div>
+
+        <!--Div for add/edit/delete product forms-->
+        <div class="justify-content-center pt-5" id="productsform">
+            <!--form to add new product-->
+            <form class="d-none mx-3 bg-white p-3 was-validated" style="font-size: 13px;" id="addNewProductForm">
+                <h5 class="text-center pb-3">Add New Product</h5>
+                <!--product name-->
+                <div class="form-group">
+                    <label for="prodName" class="col-form-label">Product Name</label>
+                    <input name="productName" type="text" class="form-control" id="prodName" placeholder="" required>
+                </div>
+                <!--brand-->
+                <div class="form-group">
+                    <label for="prodBrand" class="col-form-label">Brand</label>
+                    <input name="productDesc" type="text" class="form-control" id="prodBrand" placeholder="" required>
+                </div>
+                <!--price-->
+                <div class="form-group">
+                    <label for="prodPrice" class="col-form-label">Price</label>
+                    <input name="productPrice" type="text" class="form-control" id="prodPrice" placeholder="Numeric values only" required>
+                </div>
+                <!--category (radio options)-->
+                <div class="form-group">
+                    <label for="catIDforProduct" class="col-form-label pr-2">Category</label>
+                    <div id="categoryIdOptions">
+                        <!--using jQuery (GET request) to append all avialable categories as radio options in create new product form-->
+                    </div>
+                </div>
+                <!--description-->
+                <div class="form-group">
+                    <label for="prodDesc">Description</label>
+                    <textarea name="prodDesc" class="form-control" id="prodDesc" rows="5" required></textarea>
+                </div>
+                <!--submit button-->
+                <div class="">
+                    <div class="row justify-content-center" id="productInsertNotification"></div>
+                    <div class="row justify-content-center">
+                        <button type="button" name="button" class="btn btn-primary" id="newProduct">Submit</button>
+                    </div>
+                </div>
+                <div class="form-group col-12">
+                    <!--Form for image upload to show when product has been uploaded-->
+                    <div id="imageUploader" class="justify-content-center">
+                        <div class="form-group">
+                            <h6 class="pt-2">Upload Image for Product:</h6>
+                            <h6 id="dynamicUpdater">None</h6>
+                            <label for="prodImage">Product Image</label>
+                            <input type="file" class="form-control-file" id="productImage">
+                        </div>
+                        <div id="imageNotification">
+                        </div>
+                        <button type="button" onclick="uploadimg()" name="button" class="btn btn-primary" id="newimg">Submit Image</button>
+                    </div>
+                </div>
+            </form>
+
+            <!--form to update product details/image-->
+            <form class="d-none row bg-white p-3" style="font-size: 13px;" id="editProductForm">
+                <!--Form to update product details excluding image of product-->
+                <div class="form-group col-6">
+                    <h5 class="justify-content-center pb-3">Update Product Details</h5>
+                    <!--dropdown to select which product to edit (use jQuery ajax to append all products)-->
+                    <div class="form-group">
+                        <select class="form-control" id="editProductDetailsDropdown">
+                            <option value="0" selected>--Select Product--</option>
+                        </select>
+                    </div>
+                    <!--product name-->
+                    <div class="form-group">
+                        <label for="newProdName" class="col-form-label">Product Name</label>
+                        <input name="productName" type="text" class="form-control" id="newProdName" placeholder="">
+                    </div>
+                    <!--brand-->
+                    <div class="form-group">
+                        <label for="newProdBrand" class="col-form-label">Brand</label>
+                        <input name="productBrand" type="text" class="form-control" id="newProdBrand" placeholder="">
+                    </div>
+                    <!--price-->
+                    <div class="form-group">
+                        <label for="newProdPrice" class="col-form-label">Price</label>
+                        <input name="productPrice" type="text" class="form-control" id="newProdPrice" placeholder="Numeric values only">
+                    </div>
+                    <!--category (dropdown)-->
+                    <div class="form-group">
+                        <label for="catIDforProduct" class="col-form-label pr-2">Category</label>
+                        <select class="form-control" id="newProdCategory">
+                            <option value="0" selected>--Select Category--</option>
+                            <!--using jQuery (GET request) to append all avialable categories as options in update product form-->
+                        </select>
+                    </div>
+                    <!--description-->
+                    <div class="form-group">
+                        <label for="newProdDesc">Description</label>
+                        <textarea name="prodDesc" class="form-control" id="newProdDesc" rows="5"></textarea>
+                    </div>
+                    <!--submit button-->
+                    <div>
+                        <div class="text-center" id="updateProductNotification"></div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" name="button" class="btn btn-primary" id="updateProductSubmit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Form for image upload to update image for product-->
+                <div class="form-group col-6">
+                    <div>
+                        <div class="form-group">
+                            <h5 class="pt-2">Update Image for Product</h5>
+                            <select class="form-control" id="updateProdImgDropdown">
+                                <option value="0" selected>--Select Product--</option>
+                                <!--appends all existing products using jquery ajax-->
+                            </select>
+                            <label for="prodImage">New Product Image</label>
+                            <input type="file" class="form-control-file" id="updateProdImg">
+                        </div>
+                        <div class="text-center" id="imageUpdateNotification">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" name="button" class="btn btn-primary" id="updateImageSubmit">Submit Image</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!--form to delete product-->
+            <form class="d-none mx-3 bg-white p-3" style="font-size: 13px;" id="deleteProductForm">
+                <h5 class="text-center pb-3">Delete Product</h5>
+                <!--dropdown to select product to delete-->
+                <div class="form-group">
+                    <select class="form-control" id="delProductDropdown">
+                        <option value="0" selected>--Select Product--</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <div id="productDeleteNotification"></div>
+                    <button type="button" name="button" class="btn btn-danger" id="delProduct">Delete</button>
+                </div>
+            </form>
+        </div>
+
+        <!--table to show all existing categories-->
+        <div class="row justify-content-center mt-5">
+            <h3 class="col-12 text-center pb-2">Categories</h3>
+            <table class="table table-bordered col-10" style="font-size: 14px;">
+                <thead>
+                    <tr class="table-secondary">
+                        <th scope="col">Row</th>
+                        <th scope="col">Category ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTable">
+                    <!--Categories will be appended here using jQuery ajax-->
+                </tbody>
+            </table>
+        </div>
+
+        <!--table to show all existing products-->
+        <div class="row justify-content-center mt-5">
+            <h3 class="col-12 text-center pb-2">Products</h3>
+            <table class="table table-bordered col-10" style="font-size: 14px;">
+                <thead>
+                    <tr class="table-secondary">
+                        <th scope="col">Row</th>
+                        <th scope="col">Product ID</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <!--Categories will be appended here using jQuery ajax-->
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="p-5"></div>
+    </div>
+
+    <!--Compulsory scripts for every page except login page-->
+    <!--Check user login-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                console.log(localStorage.getItem('token'))
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-danger" href="#" id="logout">Log Out</a>`
+            } else {
+                console.log("not logged in")
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-primary" href="./login.html" id="login">Login</a>`
+            }
+        })
+    </script>
+    <!--Logout function-->
+    <script>
+        $(document).ready(function() {
+            $("#logout").click(function() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                localStorage.removeItem("type");
+                window.location.assign("./login.html");
+            })
+        })
+    </script>
+    <!--Script to show interests link if anyone is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                $("#interestsLink").removeClass("d-none")
+            }
+        })
+    </script>
+    <!--Kicks the user out of dashboard page if type is not Admin or if there is no token detected-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem("token") && (localStorage.getItem("type") == "Admin")) {
+                console.log("in dashboard");
+            } else {
+                console.log("refused entry");
+                window.location.assign("./index.html");
+            }
+        })
+    </script>
+
+    <!--Page specific scripts-->
+    <!--script to respond to product form buttons-->
+    <script>
+        $(document).ready(function() {
+            $("#addProductBtn").click(function() { //admin clicks on add product button
+                $("#addNewProductForm").removeClass("d-none");
+                $("#editProductForm").addClass("d-none");
+                $("#deleteProductForm").addClass("d-none");
+            });
+
+            $("#editProductBtn").click(function() { //admin clicks on edit product button
+                $("#addNewProductForm").addClass("d-none");
+                $("#editProductForm").removeClass("d-none");
+                $("#deleteProductForm").addClass("d-none");
+            });
+
+            $("#delProductBtn").click(function() { //admin clicks on delete product button
+                $("#addNewProductForm").addClass("d-none");
+                $("#editProductForm").addClass("d-none");
+                $("#deleteProductForm").removeClass("d-none");
+            });
+        })
+    </script>
+
+    <!--Shows all existing category in a table-->
+    <script>
+        $(document).ready(function() {
+
+            $.ajax({
+                url: 'http://localhost:3000/category/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        for (i = 0; i < data.length; i++) {
+                            document.getElementById('categoryTable').innerHTML +=
+                                `<tr class="table-light">
+                                    <th scope="row">${i+1}</th>
+                                    <td>${data[i].categoryid}</td>
+                                    <td>${data[i].category}</td>
+                                    <td>${data[i].description}</td>
+                                </tr>`
+                        }
+
+                    } else {
+                        console.log("null data");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("error");
+                }
+            });
+            return false;
+        })
+    </script>
+
+    <!--Shows all existing products in a table and also in product dropdown for delete product and update product image/details-->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost:3000/product/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        for (i = 0; i < data.length; i++) {
+                            //append product details to table
+                            document.getElementById('productTable').innerHTML +=
+                                `<tr class="table-light">
+                                    <th scope="row">${i + 1}</th>
+                                    <td>${data[i].productid}</td>
+                                    <td>${data[i].categoryname}</td>
+                                    <td>${data[i].name}</td>
+                                    <td>${data[i].brand}</td>
+                                    <td>$${data[i].price}</td>
+                                    <td>${data[i].description}</td>
+                                </tr>`;
+
+                            //append products to dropdown for delete product form
+                            document.getElementById('delProductDropdown').innerHTML +=
+                                `<option value="${data[i].productid}">${data[i].name}</option>`;
+
+                            //append products to dropdown to update product image
+                            document.getElementById("updateProdImgDropdown").innerHTML +=
+                                `<option value="${data[i].productid}">${data[i].name}</option>`;
+
+                            //append products to dropdown to edit product details
+                            document.getElementById("editProductDetailsDropdown").innerHTML +=
+                                `<option value="${data[i].productid}">${data[i].name}</option>`;
+                        }
+                    } else {
+                        console.log("null data");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("error");
+                }
+            });
+            return false;
+        })
+    </script>
+
+    <!--Appends all existing categories as radio options to the insert new product form and also to update product form as dropdown-->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost:3000/category/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        for (i = 0; i < data.length; i++) {
+                            document.getElementById('categoryIdOptions').innerHTML +=
+                                `<div class="custom-control custom-radio" required>
+                                    <input class="custom-control-input" type="radio" name="catIDforProduct" id="${data[i].category}" value="${data[i].categoryid}" required>
+                                    <label class="custom-control-label" for="${data[i].category}">${data[i].category}</label>
+                                </div>`
+
+                            document.getElementById("newProdCategory").innerHTML +=
+                                `<option value="${data[i].categoryid}">${data[i].category}</option>`;
+                        }
+                    } else {
+                        console.log("data is null");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        })
+    </script>
+
+    <!--form submission script to create new category (with authorization header)-->
+    <script>
+        $(document).ready(function() {
+            $("#newCategory").click(function() {
+                var catName = $("#catName").val();
+                var catDesc = $("#catDesc").val();
+                var data = `{"category": "${catName}", "description":"${catDesc}"}`;
+                var tmpToken = localStorage.getItem('token');
+                console.log(data);
+
+                if (!catName.trim() || !catDesc.trim()) { //check if empty value is entered
+                    console.log("empty");
+                    document.getElementById('catInsertNotification').innerHTML = "<p class='text-danger'>Empty value entered. Please try again</p>";
+                } else {
+                    $.ajax({
+                        headers: {
+                            'authorization': 'Bearer ' + tmpToken
+                        },
+                        url: 'http://localhost:3000/category',
+                        type: 'POST',
+                        data: data,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        statusCode: { //422 response is when category name already exists
+                            422: function(response) {
+                                console.log("422 err")
+                                document.getElementById('catInsertNotification').innerHTML = "<p class='text-danger'>Category name already exists!</p>";
+                            }
+                        },
+                        success: function(data, status, xhr) {
+                            console.log("Successfully entered");
+                            alert("New category has been added.");
+                            location.reload();
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.log(textStatus)
+                        }
+                    });
+                    return false;
+                }
+            })
+        })
+    </script>
+
+    <!--form submission script to create new product (with authorization header)-->
+    <script>
+        $(document).ready(function() {
+            $("#newProduct").click(function() {
+                var newProductData = { //convert all form data into a object
+                    name: $("#prodName").val(),
+                    description: $("#prodDesc").val(),
+                    categoryid: $('input[name="catIDforProduct"]:checked').val(),
+                    brand: $("#prodBrand").val(),
+                    price: $("#prodPrice").val()
+                }
+                console.log(newProductData);
+                var tmpToken = localStorage.getItem('token');
+
+                //check for any unwanted inputs in the form (excluding image upload)
+                for (var key in newProductData) {
+                    console.log(newProductData[key])
+                    if (!newProductData[key].trim()) { //check for any empty form values
+                        console.log(`${key} is empty`)
+                        document.getElementById('productInsertNotification').innerHTML = `<p class='text-danger'>Please ensure all values are not empty</p>`;
+                        return;
+
+                    } else if (isNaN(parseFloat(newProductData["price"]))) { //check if price value is not a number
+                        console.log("price is nan");
+                        document.getElementById('productInsertNotification').innerHTML = "<p class='text-danger'>Price must be a numeric value</p>";
+                        return;
+                    }
+                }
+
+                //proceed to store new product in database if no error (excluding image)
+                newProductData = JSON.stringify(newProductData); //change to json to send to database, will show cors error if js object is used
+                $.ajax({ //ajax to store product in the database
+                    headers: {
+                        'authorization': 'Bearer ' + tmpToken,
+                    },
+                    url: 'http://localhost:3000/product',
+                    type: 'POST',
+                    data: newProductData,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    statusCode: { //422 response is when product name already exists
+                        422: function(response) {
+                            document.getElementById('productInsertNotification').innerHTML = "<p class='text-danger'>Product name already exists!</p>";
+                        }
+                    },
+                    success: function(data, status, xhr) {
+                        document.getElementById('productInsertNotification').innerHTML = "<p class='text-success'>New product inserted. Please upload image</p>";
+                        dataObj = JSON.parse(data);
+                        console.log(dataObj);
+                        localStorage.setItem('newProductID', dataObj.productid); //set new product id in local storage for img upload
+                        localStorage.setItem('newProductName', dataObj.name); //set new product name in local storage for admin to see
+                        dynamicNotification();
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(errorThrown)
+                    }
+                });
+                return false;
+            })
+        })
+    </script>
+
+    <!--form submission script for image upload (with authorization header)-->
+    <script>
+        function uploadimg() {
+            $(document).ready(function() {
+
+                if (!localStorage.getItem("newProductID")) {
+                    document.getElementById('imageNotification').innerHTML = `<p class="text-danger">Please create product first before inserting image!</p>`
+                    return;
+                }
+
+                var formData = new FormData()
+                var file = $("#productImage")[0].files[0];
+                formData.append('productimg', file);
+                console.log(file)
+                var newProductID = localStorage.getItem("newProductID")
+                var tmpToken = localStorage.getItem("token");
+
+                $.ajax({ //ajax to store image in database
+                    headers: {
+                        'authorization': 'Bearer ' + tmpToken,
+                    },
+                    url: `http://localhost:3000/product/${newProductID}/updateimage`,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    statusCode: { //different status code represent different responses
+                        400: function(response) {
+                            document.getElementById('imageNotification').innerHTML = "<p class='text-danger'>Image is greater than 1MB</p>";
+                        },
+                        404: function(response) {
+                            document.getElementById('imageNotification').innerHTML = "<p class='text-danger'>Please submit only jpg/jpeg/png</p>";
+                        }
+                    },
+
+                    success: function(data, status, xhr) {
+                        localStorage.removeItem('newProductID');
+                        localStorage.removeItem('newProductName');
+                        dynamicNotification();
+                        alert("New product and its image added.");
+                        location.reload();
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(textStatus)
+                    }
+                });
+                return false;
+            })
+        }
+    </script>
+
+    <!--script for dynamic status for upload product image-->
+    <script>
+        function dynamicNotification() {
+            $(document).ready(function() {
+                if (!localStorage.getItem("newProductID")) {
+                    document.getElementById("dynamicUpdater").innerHTML = "None";
+
+                } else {
+                    document.getElementById("dynamicUpdater").innerHTML = `${localStorage.getItem("newProductName")}`;
+                }
+            })
+        }
+    </script>
+
+    <!--form submission script to delete existing product (with authorization header)-->
+    <script>
+        $(document).ready(function() {
+            $("#delProduct").click(function() {
+                var productID = $("#delProductDropdown").val();
+                console.log("productid to delete:");
+                console.log(productID);
+
+                if (productID == 0) {
+                    document.getElementById("productDeleteNotification").innerHTML = `<p class="text-danger">You have not selected a product</p>`
+
+                } else {
+                    var tmpToken = localStorage.getItem('token');
+
+                    $.ajax({
+                        headers: {
+                            'authorization': 'Bearer ' + tmpToken,
+                        },
+                        url: `http://localhost:3000/product/${productID}/`,
+                        type: 'DELETE',
+                        dataType: "json",
+
+                        success: function(data, status, xhr) {
+                            alert("Product has been deleted.");
+                            location.reload();
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        }
+                    });
+                    return false;
+                }
+            })
+        })
+    </script>
+
+    <!--form submission script to update image-->
+    <script>
+        $(document).ready(function() {
+
+            $("#updateImageSubmit").click(function() {
+                var productID = $("#updateProdImgDropdown").val();
+                var formData = new FormData();
+                var file = $("#updateProdImg")[0].files[0];
+                formData.append('productimg', file);
+                console.log(file)
+
+                var tmpToken = localStorage.getItem("token");
+
+                if (productID == 0) {
+                    document.getElementById("imageUpdateNotification").innerHTML = `<p class="text-danger">No product selected</p>`;
+                    return;
+                }
+
+                $.ajax({ //ajax to store image in database
+                    headers: {
+                        'authorization': 'Bearer ' + tmpToken,
+                    },
+                    url: `http://localhost:3000/product/${productID}/updateimage`,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    statusCode: { //different status code represent different responses
+                        400: function(response) {
+                            document.getElementById('imageUpdateNotification').innerHTML = "<p class='text-danger'>Image is greater than 1MB</p>";
+                        },
+                        404: function(response) {
+                            document.getElementById('imageUpdateNotification').innerHTML = "<p class='text-danger'>Please submit only jpg/jpeg/png</p>";
+                        }
+                    },
+
+                    success: function(data, status, xhr) {
+                        alert("Product has been successfully updated with new image.");
+                        location.reload();
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(textStatus)
+                    }
+                });
+                return false;
+            })
+        })
+    </script>
+
+    <!--form submission script to update product details-->
+    <script>
+        $(document).ready(function() {
+
+            $("#updateProductSubmit").click(function() {
+                var productID = $("#editProductDetailsDropdown").val();
+                var productName = $("#newProdName").val();
+                var productBrand = $("#newProdBrand").val();
+                var productPrice = $("#newProdPrice").val();
+                var productCategory = $("#newProdCategory").val();
+                var productDesc = $("#newProdDesc").val();
+
+                console.log(productID)
+                if (productID == 0) {
+                    document.getElementById("updateProductNotification").innerHTML = `<p class="text-danger">No product selected</p>`;
+                    return;
+
+                } else if (isNaN(parseFloat(productPrice))) { //check if price value is not a number
+                    console.log("price is nan");
+                    document.getElementById('updateProductNotification').innerHTML = "<p class='text-danger'>Price must be a numeric value</p>";
+                    return;
+                }
+
+                if (productCategory == 0) {
+                    productCategory = "";
+                }
+
+                var tmpToken = localStorage.getItem("token");
+                var data = `{
+                    "name": "${productName}",
+                    "description": "${productDesc}",
+                    "categoryid": "${productCategory}",
+                    "brand": "${productBrand}",
+                    "price": "${productPrice}"
+                }`
+                console.log(data);
+
+                $.ajax({
+                    headers: {
+                        'authorization': 'Bearer ' + tmpToken,
+                    },
+                    url: `http://localhost:3000/product/${productID}/`,
+                    type: 'PUT',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    statusCode: { //422 code means that product name already exists (unique key)
+                        422: function(response) {
+                            document.getElementById('updateProductNotification').innerHTML = "<p class='text-danger'>Product name entered already exists</p>";
+                        }
+                    },
+
+                    success: function(data, status, xhr) {
+                        alert("Product details has been successfully updated.");
+                        location.reload();
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                })
+                return false;
+            })
+        })
+    </script>
+</body>
+
+</html>

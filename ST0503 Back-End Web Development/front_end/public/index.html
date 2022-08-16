@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SP IT | Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="css\main.css" rel="stylesheet">
+</head>
+
+<body>
+    <!--navigation tab-->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="#"><b class="text-danger">SP IT</b></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+                <li class="nav-item d-none" id="interestsLink">
+                    <a class="nav-link" href="interests.html">Interests</a>
+                </li>
+                <li class="nav-item d-none" id="dashboardLink">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-3">
+                <li class="nav-item" id="logInOut">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="bg">
+        <div id="centered">
+            <h1 class="display-3 text-white">Welcome to SP IT</h1>
+            <h5 class="text-center text-white">Where all tech products can be found.</h5>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="text-center my-3">
+            <h2>Our Latest Products</h2>
+            <p>Only the newest on the market</p>
+        </div>
+
+        <div class="row my-5" id="productposts">
+        </div>
+    </div>
+
+    <!--Compulsory scripts for every page except login page-->
+    <!--Check user login-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                console.log(localStorage.getItem('token'))
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-danger" href="#" id="logout">Log Out</a>`
+            } else {
+                console.log("not logged in")
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-primary" href="./login.html" id="login">Login</a>`
+            }
+        })
+    </script>
+    <!--Logout function-->
+    <script>
+        $(document).ready(function() {
+            $("#logout").click(function() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                localStorage.removeItem("type");
+                window.location.assign("./login.html");
+            })
+        })
+    </script>
+    <!--Script to show dashboard link if an admin is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('type') == "Admin" && localStorage.getItem('token')) {
+                $("#dashboardLink").removeClass("d-none")
+            }
+        })
+    </script>
+    <!--Script to show interests link if anyone is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                $("#interestsLink").removeClass("d-none")
+            }
+        })
+    </script>
+
+    <!--Page specific scripts-->
+    <!--Script to bring user to product details page when they click on "View Details" for that particular product-->
+    <script>
+        function saveID(productid) {
+            localStorage.setItem("productid", productid)
+            window.location.assign("./productDetails.html")
+        }
+    </script>
+
+    <!--Script to append product information to card-->
+    <script>
+        $(document).ready(function() {
+
+            $.ajax({
+                url: 'http://localhost:3000/new/products/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        var brandArray = [];
+                        console.log(data)
+                        for (i = 0; i < data.length; i++) {
+                            document.getElementById('productposts').innerHTML +=
+                                `<div class="col-2 mb-4 p-1">
+                                    <div class="card h-100 mt-3 productcard">
+                                        <img src="http://localhost:3000/${data[i].image}" class="productimgs card-img-top" alt="Image of Product">
+                                        <div class="card-body">
+                                            <h6>${data[i].name}</h6>
+                                            <a href="#" onclick="saveID(${data[i].productid})" id="details" class="stretched-link"></a>
+                                        </div>
+                                        <div class="" style="margin: 0;>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="p-0 pl-2 list-group-item"><p><b>Brand: </b>${data[i].brand}</p></li>
+                                                <li class="p-0 pl-2 list-group-item"><h5>S$${data[i].price}</h5></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>`
+                        }
+
+                    } else {
+                        console.log("Error");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+
+</html>

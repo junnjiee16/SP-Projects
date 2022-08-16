@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SP IT | Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!--Bootstrap stuff-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="css\loginAndRegister.css" rel="stylesheet">
+</head>
+
+<!--Login page credits: coded by Mutiullah Samim, taken from https://bootsnipp.com/snippets/3522X-->
+
+<body>
+    <!--navigation tab-->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html"><b class="text-danger">SP IT</b></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--login container-->
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <div class="row brand_logo_container">
+                        <h1 class="text-danger">SP </h1>
+                        <h1 class="text-white">IT!</h1>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <!--input for email-->
+                            <input type="text" name="" class="form-control input_user" value="" id="email" placeholder="email">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <!--input for password-->
+                            <input type="password" name="" class="form-control input_pass" value="" id="pwd" placeholder="password">
+                        </div>
+                        <div id="wrong">
+                        </div>
+                        <div class="d-flex justify-content-center mt-3 login_container">
+                            <!--button for login-->
+                            <button type="button" name="button" class="btn login_btn" id="Login">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--login script when user press button-->
+    <script>
+        $(document).ready(function() {
+            $("#Login").click(function() {
+                var id = $('#email').val();
+                var pwd = $('#pwd').val();
+                var data = `{"email": "${id}", "password": "${pwd}"}`;
+
+                $.ajax({
+                    url: 'http://localhost:3000/users/login',
+                    type: 'POST',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data, status, xhr) {
+                        if (data != null) {
+                            console.log(data)
+                            localStorage.setItem('token', data.token);
+                            localStorage.setItem('userid', data.userid);
+                            localStorage.setItem('type', data.type);
+                            window.location.assign("./index.html");
+                        } else {
+                            console.log("Error");
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log('wrong password');
+                        document.getElementById('wrong').innerHTML = "<p class='text-danger'>Wrong Credentials. Please try again.</p>"
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>

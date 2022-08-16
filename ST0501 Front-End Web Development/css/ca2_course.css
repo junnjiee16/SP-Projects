@@ -1,0 +1,39 @@
+@charset "utf-8";
+ 
+/*
+File name: ca2_course.css
+Name: Jun Jie
+*/
+
+
+/* styles for table listing module information */
+table#modules thead {
+    background-color: hsl(255, 18%, 21%);
+}
+
+
+table#modules tbody td {
+    line-height: 1.3em;
+}
+
+
+table#modules tbody tr:hover {
+    background-color: hsl(24, 0%, 17%);
+}
+
+
+/* styles for table listing course information in soc */
+table#scoreTable th, table#scoreTable td {
+    border-style: double;
+    border-color: hsl(36, 4%, 18%);
+}
+
+
+table#scoreTable tbody tr:hover {
+    background-color: hsla(24, 0%, 88%, 1)
+}
+
+
+h2 {
+    font-size: 2em;
+}

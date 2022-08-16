@@ -1,0 +1,166 @@
+@charset "UTF-8";
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: rgb(201, 201, 201) !important;
+}
+
+
+/* for index.html */
+
+.bg {
+    /* The image used */
+    background-image: url("../macBackground.jpg");
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* for dashboard.html */
+
+#productsform {
+    width: 50%;
+    margin: auto;
+}
+
+
+/* for products.html */
+
+.productcard {
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+
+.productcard:hover {
+    transform: scale(1.02);
+    border-color: red;
+}
+
+.productimgs {
+    width: 10em;
+    height: 10em;
+    background-size: cover;
+}
+
+
+/* for search.html */
+
+#resultsCard {
+    display: flex;
+    width: 75%;
+    margin: auto;
+}
+
+
+/* for productDetails.html */
+
+#detailsCard {
+    width: 80%;
+    margin: auto;
+    margin-top: 7em;
+}
+
+#reviewsCard {
+    width: 80%;
+    margin: auto;
+    margin-top: 7em;
+}
+
+#reviewForm {
+    width: 80%;
+    margin: auto;
+    margin-top: 7em;
+}
+
+#notloggedin {
+    width: 80%;
+    margin: auto;
+    margin-top: 7em;
+}
+
+#pd_image {
+    width: 25em;
+}
+
+
+/* for star rating */
+
+.rating {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    font-size: 30px;
+}
+
+.rating label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    cursor: pointer;
+}
+
+.rating label:last-child {
+    position: static;
+}
+
+.rating label:nth-child(1) {
+    z-index: 5;
+}
+
+.rating label:nth-child(2) {
+    z-index: 4;
+}
+
+.rating label:nth-child(3) {
+    z-index: 3;
+}
+
+.rating label:nth-child(4) {
+    z-index: 2;
+}
+
+.rating label:nth-child(5) {
+    z-index: 1;
+}
+
+.rating label input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.rating label .icon {
+    float: left;
+    color: transparent;
+}
+
+.rating label:last-child .icon {
+    color: #000;
+}
+
+.rating:not(:hover) label input:checked~.icon,
+.rating:hover label:hover input~.icon {
+    color: #09f;
+}
+
+.rating label input:focus:not(:checked)~.icon:last-child {
+    color: #000;
+    text-shadow: 0 0 5px #09f;
+}

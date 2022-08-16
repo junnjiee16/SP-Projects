@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SP IT | Products</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="css\main.css" rel="stylesheet">
+</head>
+
+<body>
+    <!--navigation tab-->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html"><b class="text-danger">SP IT</b></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Products</a>
+                </li>
+                <li class="nav-item d-none" id="interestsLink">
+                    <a class="nav-link" href="interests.html">Interests</a>
+                </li>
+                <li class="nav-item d-none" id="dashboardLink">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-3">
+                <li class="nav-item" id="logInOut">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--div for product posts-->
+    <div class="container-fluid">
+        <!--search bar-->
+        <div class="row justify-content-center my-5">
+            <form class="form-inline" id="searchBar">
+                <!--dropdown for user to select category-->
+                <select name="category" id="categoryDropdown" class="mr-2 form-control">
+                    <option value="" selected>Select Category</option>
+                </select>
+                <!--dropdown for user to select brand-->
+                <select name="brand" id="brandDropdown" class="mr-2 form-control">
+                    <option value="" selected>Select Brand</option>
+                </select>
+                <input name="search" class="form-control mr-sm-2" type="text" placeholder="Search Products" id="search" style="width: 400px;">
+                <button class="btn btn-success my-2 my-sm-0" type="submit" id="searchSubmit">Search</button>
+            </form>
+        </div>
+
+        <!--product cards-->
+        <div id="noMatchingProducts"></div>
+        <div class="row my-5" id="productposts">
+        </div>
+    </div>
+
+
+    <!--Compulsory scripts for every page except login page-->
+    <!--Check user login-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                console.log(localStorage.getItem('token'))
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-danger" href="#" id="logout">Log Out</a>`
+            } else {
+                console.log("not logged in")
+                document.getElementById("logInOut").innerHTML = `<a role="button" name="button" class="btn btn-primary" href="./login.html" id="login">Login</a>`
+            }
+        })
+    </script>
+    <!--Logout function-->
+    <script>
+        $(document).ready(function() {
+            $("#logout").click(function() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                localStorage.removeItem("type");
+                window.location.assign("./login.html");
+            })
+        })
+    </script>
+    <!--Script to show dashboard link if an admin is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('type') == "Admin" && localStorage.getItem('token')) {
+                $("#dashboardLink").removeClass("d-none")
+            }
+        })
+    </script>
+    <!--Script to show interests link if anyone is logged in-->
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('token')) {
+                $("#interestsLink").removeClass("d-none")
+            }
+        })
+    </script>
+
+    <!--Page specific scripts-->
+    <!--Script to bring user to product details page when they click on "View Details" for that particular product-->
+    <script>
+        function saveID(productid) {
+            localStorage.setItem("productid", productid)
+            window.location.assign("./productDetails.html")
+        }
+    </script>
+
+    <!--Script to append categories to category dropdown for search bar-->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost:3000/category/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        console.log(data)
+                        for (i = 0; i < data.length; i++) {
+                            document.getElementById('categoryDropdown').innerHTML +=
+                                `<option value="${data[i].categoryid}">${data[i].category}</option>`
+                        }
+                    } else {
+                        console.log("Error");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        });
+    </script>
+
+    <!--script to let user search by product, name and/or category-->
+    <script>
+        $(document).ready(function() {
+            $("#searchSubmit").click(function() {
+                brand = $("#brandDropdown").val();
+                nameKeyword = $("#search").val().trim();
+                categoryid = $("#categoryDropdown").val();
+
+                data = `{"brand": "${brand}", "nameKeyword": "${nameKeyword}", "categoryid": "${categoryid}"}`
+                document.getElementById('productposts').innerHTML = ``; //clears all the previous cards by loading in a empty innerHTML
+
+                $.ajax({
+                    url: 'http://localhost:3000/search/products',
+                    type: 'POST',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data, status, xhr) {
+                        console.log(data)
+                        if (data.length != 0) { //checks if there is any results from the search
+                            document.getElementById("noMatchingProducts").innerHTML = ""; //clear the error message for this div
+
+                            for (i = 0; i < data.length; i++) {
+                                document.getElementById('productposts').innerHTML +=
+                                    `<div class="col-2 mb-4 p-1">
+                                    <div class="card h-100 mt-3 productcard">
+                                        <img src="http://localhost:3000/${data[i].image}" class="productimgs card-img-top" alt="Image of Product">
+                                        <div class="card-body">
+                                            <h6>${data[i].name}</h6>
+                                            <a href="#" onclick="saveID(${data[i].productid})" id="details" class="stretched-link"></a>
+                                        </div>
+                                        <div class="" style="margin: 0;>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="p-0 pl-2 list-group-item"><p><b>Brand: </b>${data[i].brand}</p></li>
+                                                <li class="p-0 pl-2 list-group-item"><h5>S$${data[i].price}</h5></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                        } else { //if no products shown from the search function inform user
+                            document.getElementById("noMatchingProducts").innerHTML = `<h5 class="text-center">No matching products. Sorry for the inconvenience</h5>`
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log('err');
+                    }
+                });
+                return false;
+            })
+        })
+    </script>
+
+    <!--Script to append product information to card and all brands to the search bar dropdown-->
+    <script>
+        $(document).ready(function() {
+
+            $.ajax({
+                url: 'http://localhost:3000/product/',
+                type: 'GET',
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data != null) {
+                        var brandArray = [];
+                        console.log(data)
+                        for (i = 0; i < data.length; i++) {
+                            document.getElementById('productposts').innerHTML +=
+                                `<div class="col-2 mb-4 p-1">
+                                    <div class="card h-100 mt-3 productcard">
+                                        <img src="http://localhost:3000/${data[i].image}" class="productimgs card-img-top" alt="Image of Product">
+                                        <div class="card-body">
+                                            <h6>${data[i].name}</h6>
+                                            <a href="#" onclick="saveID(${data[i].productid})" id="details" class="stretched-link"></a>
+                                        </div>
+                                        <div class="" style="margin: 0;>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="p-0 pl-2 list-group-item"><p><b>Brand: </b>${data[i].brand}</p></li>
+                                                <li class="p-0 pl-2 list-group-item"><h5>S$${data[i].price}</h5></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>`
+                            brandArray.push(data[i].brand); //push brand of each product into an array
+                        }
+
+                        uniqueBrandsArray = Array.from(new Set(brandArray)) //creates a new array for unique values of brands
+                        for (var i = 0; i < uniqueBrandsArray.length; i++) {
+                            document.getElementById("brandDropdown").innerHTML +=
+                                `<option value="${uniqueBrandsArray[i]}">${uniqueBrandsArray[i]}</option>`
+                        }
+
+                    } else {
+                        console.log("Error");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('error');
+                }
+            });
+            return false;
+        });
+    </script>
+
+</body>
+
+</html>
