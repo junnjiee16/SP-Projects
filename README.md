@@ -26,6 +26,13 @@ Learnt how to build server side software using MySQL as the database and Express
 
 ## ST1510 Programming for Data Analytics
 > Python, NumPy, Pandas, Matplotlib
+Not pushed.
+
+<br>
+
+## ST1502 Data Visualization
+> Python, Pandas, Seaborn, Plotly, Tableau
+Not pushed.
 
 <br>
 
@@ -42,7 +49,7 @@ Using the knowledge acquired, I embarked on 3 diferent projects in this module.
 <br>
 
 ## ST1511 AI and Machine Learning
-> Python, Pandas, NumPy, Sklearn, Statsmodels, Seaborn, Plotly
+> Python, Sklearn, Statsmodels, Scipy
 
 <br>
 
